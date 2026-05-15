@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hospital Belén de Lambayeque — Sistema Administrativo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-brand">
+    <div class="header-logo"><i class="ti ti-building-hospital"></i></div>
+    <div>
+      <div class="header-title">Hospital Belén de Lambayeque</div>
+      <div class="header-sub">Sistema Administrativo</div>
+    </div>
+  </div>
+  <div class="header-user">
+    <div class="header-avatar">AD</div>
+    <div>
+      <div style="font-size:12px;font-weight:500">Administrador</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.4)">Área Administrativa</div>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="nav-section">
+    <div class="nav-lbl">Principal</div>
+    <div class="nav-item active" onclick="nav('dashboard',this)"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-lbl">Organización</div>
+    <div class="nav-item" onclick="nav('areas',this)"><i class="ti ti-building-community"></i> Áreas</div>
+    <div class="nav-item" onclick="nav('personal',this)"><i class="ti ti-users"></i> Personal</div>
+    <div class="nav-item" onclick="nav('turnos',this)"><i class="ti ti-clock"></i> Turnos</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-lbl">Roles y Firmas</div>
+    <div class="nav-item" onclick="nav('roles',this)"><i class="ti ti-file-certificate"></i> Roles</div>
+    <div class="nav-item" onclick="nav('firmas',this)"><i class="ti ti-writing-sign"></i> Firmas</div>
+    <div class="nav-item" onclick="nav('conceder',this)"><i class="ti ti-signature"></i> Conceder Firma</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+<div class="topbar">
+  <div class="topbar-title" id="topbar-title">Dashboard</div>
+  <div class="topbar-actions" id="topbar-actions"></div>
+</div>
+<div class="content">
+
+<!-- ===== DASHBOARD ===== -->
+<div class="section active" id="sec-dashboard">
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-icon teal"><i class="ti ti-building-community"></i></div><div><div class="stat-val">12</div><div class="stat-lbl">Áreas activas</div></div></div>
+    <div class="stat-card"><div class="stat-icon blue"><i class="ti ti-users"></i></div><div><div class="stat-val">87</div><div class="stat-lbl">Personal registrado</div></div></div>
+    <div class="stat-card"><div class="stat-icon amber"><i class="ti ti-file-certificate"></i></div><div><div class="stat-val">34</div><div class="stat-lbl">Roles creados</div></div></div>
+    <div class="stat-card"><div class="stat-icon green"><i class="ti ti-writing-sign"></i></div><div><div class="stat-val">28</div><div class="stat-lbl">Firmas completadas</div></div></div>
+  </div>
+  <div class="dash-grid">
+    <div class="panel">
+      <div class="panel-hdr"><span class="panel-title"><i class="ti ti-file-certificate"></i> Roles recientes</span></div>
+      <table><thead><tr><th>Rol</th><th>Doctor</th><th>Estado</th></tr></thead><tbody>
+        <tr><td>Médico UCI</td><td>Dr. Ramos C.</td><td><span class="badge badge-green">Completado</span></td></tr>
+        <tr><td>Enfermero Esp.</td><td>Enf. Altamirano</td><td><span class="badge badge-amber">En proceso</span></td></tr>
+        <tr><td>Técn. Radiología</td><td>Tec. Meza V.</td><td><span class="badge badge-amber">En proceso</span></td></tr>
+      </tbody></table>
+    </div>
+    <div class="panel">
+      <div class="panel-hdr"><span class="panel-title"><i class="ti ti-clock"></i> Turnos activos</span></div>
+      <table><thead><tr><th>Turno</th><th>Área</th><th>Personal</th></tr></thead><tbody>
+        <tr><td>Mañana</td><td>UCI Adultos</td><td>22</td></tr>
+        <tr><td>Tarde</td><td>Med. Interna</td><td>14</td></tr>
+        <tr><td>Noche</td><td>Emergencias</td><td>8</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ÁREAS ===== -->
+<div class="section" id="sec-areas">
+  <div class="panel">
+    <div class="panel-hdr">
+      <span class="panel-title"><i class="ti ti-building-community"></i> Áreas registradas</span>
+      <div class="panel-controls">
+        <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" id="search-areas" placeholder="Buscar área..." oninput="filterTable('tbl-areas',this.value,0)"></div>
+        <button class="btn btn-teal" onclick="openModal('area-crear')"><i class="ti ti-plus"></i> Nueva área</button>
+        <button class="btn" id="btn-editar-area" onclick="editarArea()" disabled><i class="ti ti-edit"></i> Editar</button>
+        <button class="btn" id="btn-eliminar-area" onclick="confirmarEliminar('área')" disabled><i class="ti ti-trash"></i> Eliminar</button>
+      </div>
+    </div>
+    <table id="tbl-areas"><thead><tr><th>Nombre del área</th><th>Jefe de área</th><th>Personal</th><th>Estado</th></tr></thead><tbody>
+      <tr onclick="selRow(this,'areas')"><td><strong>Medicina Interna</strong></td><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-navy">RC</div>Dr. Ramos Castillo</div></td><td>14</td><td><span class="badge badge-green">Activa</span></td></tr>
+      <tr onclick="selRow(this,'areas')"><td><strong>UCI Adultos</strong></td><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-teal">LV</div>Dra. Llanos Vásquez</div></td><td>22</td><td><span class="badge badge-green">Activa</span></td></tr>
+      <tr onclick="selRow(this,'areas')"><td><strong>Imagenología</strong></td><td><span style="color:var(--text3);font-size:12px">Sin asignar</span></td><td>8</td><td><span class="badge badge-amber">Sin jefe</span></td></tr>
+      <tr onclick="selRow(this,'areas')"><td><strong>Recursos Humanos</strong></td><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-amber">MP</div>Lic. Morales Panta</div></td><td>6</td><td><span class="badge badge-green">Activa</span></td></tr>
+      <tr onclick="selRow(this,'areas')"><td><strong>Dirección Ejecutiva</strong></td><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-red">GS</div>Dr. García Salcedo</div></td><td>4</td><td><span class="badge badge-green">Activa</span></td></tr>
+      <tr onclick="selRow(this,'areas')"><td><strong>Emergencias</strong></td><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-teal">HM</div>Dr. Huanca Mori</div></td><td>18</td><td><span class="badge badge-green">Activa</span></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- ===== PERSONAL ===== -->
+<div class="section" id="sec-personal">
+  <div class="panel">
+    <div class="panel-hdr">
+      <span class="panel-title"><i class="ti ti-users"></i> Personal registrado</span>
+      <div class="panel-controls">
+        <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" placeholder="Buscar doctor..." oninput="filterTable('tbl-personal',this.value,0)"></div>
+        <button class="btn btn-teal" onclick="openModal('personal-crear')"><i class="ti ti-plus"></i> Nuevo personal</button>
+        <button class="btn" id="btn-editar-personal" onclick="editarPersonal()" disabled><i class="ti ti-edit"></i> Editar</button>
+        <button class="btn" id="btn-eliminar-personal" onclick="confirmarEliminar('personal')" disabled><i class="ti ti-trash"></i> Eliminar</button>
+      </div>
+    </div>
+    <table id="tbl-personal"><thead><tr><th>Nombre</th><th>DNI</th><th>Área</th><th>Turno</th><th>Cargo</th><th>Estado</th><th>Historial</th></tr></thead><tbody>
+      <tr onclick="selRow(this,'personal')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-navy">RC</div>Dr. Ramos Castillo</div></td><td><span style="font-family:'DM Mono',monospace;font-size:12px">43218765</span></td><td>Medicina Interna</td><td><span class="badge badge-blue">Mañana</span></td><td><span class="badge badge-teal">Jefe de área</span></td><td><span class="badge badge-green">Activo</span></td><td><button class="btn btn-sm" onclick="verHistorico(event,'Dr. Ramos Castillo')"><i class="ti ti-history"></i> Histórico</button></td></tr>
+      <tr onclick="selRow(this,'personal')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-teal">AP</div>Enf. Altamirano Paz</div></td><td><span style="font-family:'DM Mono',monospace;font-size:12px">47832156</span></td><td>UCI Adultos</td><td><span class="badge badge-amber">Noche</span></td><td><span class="badge badge-gray">Enfermero</span></td><td><span class="badge badge-green">Activo</span></td><td><button class="btn btn-sm" onclick="verHistorico(event,'Enf. Altamirano Paz')"><i class="ti ti-history"></i> Histórico</button></td></tr>
+      <tr onclick="selRow(this,'personal')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-amber">MV</div>Tec. Meza Vargas</div></td><td><span style="font-family:'DM Mono',monospace;font-size:12px">45678901</span></td><td>Imagenología</td><td><span class="badge badge-blue">Tarde</span></td><td><span class="badge badge-gray">Técnico</span></td><td><span class="badge badge-amber">En proceso</span></td><td><button class="btn btn-sm" onclick="verHistorico(event,'Tec. Meza Vargas')"><i class="ti ti-history"></i> Histórico</button></td></tr>
+      <tr onclick="selRow(this,'personal')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-red">LV</div>Dra. Llanos Vásquez</div></td><td><span style="font-family:'DM Mono',monospace;font-size:12px">41234567</span></td><td>UCI Adultos</td><td><span class="badge badge-blue">Mañana</span></td><td><span class="badge badge-teal">Jefe de área</span></td><td><span class="badge badge-green">Activo</span></td><td><button class="btn btn-sm" onclick="verHistorico(event,'Dra. Llanos Vásquez')"><i class="ti ti-history"></i> Histórico</button></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- ===== TURNOS ===== -->
+<div class="section" id="sec-turnos">
+  <div class="panel">
+    <div class="panel-hdr">
+      <span class="panel-title"><i class="ti ti-clock"></i> Turnos registrados</span>
+      <div class="panel-controls">
+        <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" placeholder="Buscar por área..." oninput="filterTable('tbl-turnos',this.value,1)"></div>
+        <button class="btn btn-teal" onclick="openModal('turno-crear')"><i class="ti ti-plus"></i> Nuevo turno</button>
+        <button class="btn" id="btn-editar-turno" onclick="editarTurno()" disabled><i class="ti ti-edit"></i> Editar</button>
+        <button class="btn" id="btn-eliminar-turno" onclick="confirmarEliminar('turno')" disabled><i class="ti ti-trash"></i> Eliminar</button>
+      </div>
+    </div>
+    <table id="tbl-turnos"><thead><tr><th>Turno</th><th>Área</th><th>Horario</th><th>Personal</th><th>Estado</th></tr></thead><tbody>
+      <tr onclick="selRow(this,'turnos')"><td><strong>Mañana</strong></td><td>Medicina Interna</td><td>07:00 – 13:00</td><td>14</td><td><span class="badge badge-green">Activo</span></td></tr>
+      <tr onclick="selRow(this,'turnos')"><td><strong>Tarde</strong></td><td>UCI Adultos</td><td>13:00 – 19:00</td><td>22</td><td><span class="badge badge-green">Activo</span></td></tr>
+      <tr onclick="selRow(this,'turnos')"><td><strong>Noche</strong></td><td>Emergencias</td><td>19:00 – 07:00</td><td>8</td><td><span class="badge badge-green">Activo</span></td></tr>
+      <tr onclick="selRow(this,'turnos')"><td><strong>Turno 24h</strong></td><td>Dirección Ejecutiva</td><td>07:00 – 07:00</td><td>4</td><td><span class="badge badge-amber">Especial</span></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- ===== ROLES ===== -->
+<div class="section" id="sec-roles">
+  <div class="panel">
+    <div class="panel-hdr">
+      <span class="panel-title"><i class="ti ti-file-certificate"></i> Roles</span>
+      <div class="panel-controls">
+        <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" placeholder="Buscar rol..." oninput="filterTable('tbl-roles',this.value,0)"></div>
+        <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" placeholder="Buscar doctor..." oninput="filterTable('tbl-roles',this.value,1)"></div>
+        <button class="btn btn-teal" onclick="openModal('rol-crear')"><i class="ti ti-plus"></i> Nuevo rol</button>
+        <button class="btn" id="btn-editar-rol" onclick="editarRol()" disabled><i class="ti ti-edit"></i> Editar</button>
+        <button class="btn" id="btn-eliminar-rol" onclick="confirmarEliminar('rol')" disabled><i class="ti ti-trash"></i> Eliminar</button>
+      </div>
+    </div>
+    <table id="tbl-roles"><thead><tr><th>Rol</th><th>Doctor asignado</th><th>Área</th><th>Firmas requeridas</th><th>Estado firmas</th><th>Historial</th></tr></thead><tbody>
+      <tr onclick="selRow(this,'roles')"><td><strong>Médico Esp. UCI</strong></td><td>Dr. Ramos Castillo</td><td>UCI Adultos</td><td>Jefa UCI · RRHH · Dir. Ejec.</td><td><span class="badge badge-green">Completado</span></td><td><button class="btn btn-sm" onclick="verHistoricoRol(event,'Dr. Ramos Castillo')"><i class="ti ti-history"></i> Histórico</button></td></tr>
+      <tr onclick="selRow(this,'roles')"><td><strong>Enfermero Esp.</strong></td><td>Enf. Altamirano Paz</td><td>UCI Adultos</td><td>Jefa UCI · RRHH · Dir. Ejec.</td><td><span class="badge badge-amber">En proceso</span></td><td><button class="btn btn-sm" onclick="verHistoricoRol(event,'Enf. Altamirano Paz')"><i class="ti ti-history"></i> Histórico</button></td></tr>
+      <tr onclick="selRow(this,'roles')"><td><strong>Técnico Radiología</strong></td><td>Tec. Meza Vargas</td><td>Imagenología</td><td>Jefe Imagen. · RRHH · Dir. Ejec.</td><td><span class="badge badge-amber">En proceso</span></td><td><button class="btn btn-sm" onclick="verHistoricoRol(event,'Tec. Meza Vargas')"><i class="ti ti-history"></i> Histórico</button></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- ===== FIRMAS ===== -->
+<div class="section" id="sec-firmas">
+  <div class="panel">
+    <div class="panel-hdr">
+      <span class="panel-title"><i class="ti ti-writing-sign"></i> Firmantes registrados</span>
+      <div class="panel-controls">
+        <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" placeholder="Buscar por área..." oninput="filterTable('tbl-firmas',this.value,3)"></div>
+        <button class="btn btn-teal" onclick="openModal('firma-crear')"><i class="ti ti-plus"></i> Nueva firma</button>
+        <button class="btn" id="btn-editar-firma" onclick="editarFirma()" disabled><i class="ti ti-edit"></i> Editar</button>
+        <button class="btn" id="btn-eliminar-firma" onclick="confirmarEliminar('firma')" disabled><i class="ti ti-trash"></i> Eliminar</button>
+      </div>
+    </div>
+    <table id="tbl-firmas"><thead><tr><th>Firmante</th><th>Tipo</th><th>Cargo</th><th>Área</th><th>Estado</th></tr></thead><tbody>
+      <tr onclick="selRow(this,'firmas')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-red">GS</div>Dr. García Salcedo</div></td><td><span class="badge badge-red">Obligatoria</span></td><td>Director Ejecutivo</td><td>Dirección Ejecutiva</td><td><span class="badge badge-green">Activo</span></td></tr>
+      <tr onclick="selRow(this,'firmas')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-amber">MP</div>Lic. Morales Panta</div></td><td><span class="badge badge-red">Obligatoria</span></td><td>Jefe de RRHH</td><td>Recursos Humanos</td><td><span class="badge badge-green">Activo</span></td></tr>
+      <tr onclick="selRow(this,'firmas')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-navy">RC</div>Dr. Ramos Castillo</div></td><td><span class="badge badge-blue">Opcional</span></td><td>Jefe de área</td><td>Medicina Interna</td><td><span class="badge badge-green">Activo</span></td></tr>
+      <tr onclick="selRow(this,'firmas')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-teal">LV</div>Dra. Llanos Vásquez</div></td><td><span class="badge badge-blue">Opcional</span></td><td>Jefe de área</td><td>UCI Adultos</td><td><span class="badge badge-green">Activo</span></td></tr>
+      <tr onclick="selRow(this,'firmas')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av av-teal">HM</div>Dr. Huanca Mori</div></td><td><span class="badge badge-blue">Opcional</span></td><td>Jefe de área</td><td>Emergencias</td><td><span class="badge badge-green">Activo</span></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- ===== CONCEDER FIRMA ===== -->
+<div class="section" id="sec-conceder">
+  <div class="info-alert"><i class="ti ti-info-circle"></i><div>Esta sección está disponible solo para firmantes autorizados: <strong>Director Ejecutivo</strong>, <strong>Jefe de RRHH</strong> y <strong>Jefes de área</strong>. Para firmar, primero active el estado con su DNI electrónico.</div></div>
+  <div class="panel">
+    <div class="panel-hdr">
+      <span class="panel-title"><i class="ti ti-signature"></i> Roles pendientes de firma</span>
+      <div class="panel-controls">
+        <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" placeholder="Buscar rol..." oninput="filterTable('tbl-conceder',this.value,0)"></div>
+        <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" placeholder="Buscar doctor..." oninput="filterTable('tbl-conceder',this.value,1)"></div>
+      </div>
+    </div>
+    <table id="tbl-conceder"><thead><tr><th>Rol</th><th>Doctor solicitante</th><th>Área</th><th>Firmas requeridas</th><th>Progreso</th><th>Acción</th></tr></thead><tbody>
+      <tr><td><strong>Enfermero Esp.</strong></td><td>Enf. Altamirano Paz</td><td>UCI Adultos</td><td>Jefa UCI · RRHH · Dir. Ejec.</td><td><div style="display:flex;align-items:center;gap:7px"><div style="flex:1;height:5px;background:var(--slate-mid);border-radius:4px"><div style="width:33%;height:100%;background:var(--warn);border-radius:4px"></div></div><span style="font-size:11px;color:var(--text2)">1/3</span></div></td><td><button class="btn btn-teal btn-sm" onclick="openConceder('Enfermero Esp.','Enf. Altamirano Paz','UCI Adultos','Especialista en cuidados intensivos UCI Adultos.')"><i class="ti ti-signature"></i> Firmar</button></td></tr>
+      <tr><td><strong>Técnico Radiología</strong></td><td>Tec. Meza Vargas</td><td>Imagenología</td><td>Jefe Imagen. · RRHH · Dir. Ejec.</td><td><div style="display:flex;align-items:center;gap:7px"><div style="flex:1;height:5px;background:var(--slate-mid);border-radius:4px"><div style="width:0%;height:100%;background:var(--warn);border-radius:4px"></div></div><span style="font-size:11px;color:var(--text2)">0/3</span></div></td><td><button class="btn btn-teal btn-sm" onclick="openConceder('Técnico Radiología','Tec. Meza Vargas','Imagenología','Técnico especialista en equipos de diagnóstico por imagen.')"><i class="ti ti-signature"></i> Firmar</button></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+</div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<!-- ===================== MODALES ===================== -->
+<div class="overlay" id="overlay" onclick="closeOnBg(event)">
+<div class="modal" id="modal-box">
+  <div class="modal-hdr"><h3 id="modal-title">Modal</h3><button class="icon-btn" onclick="closeModal()"><i class="ti ti-x"></i></button></div>
+  <div class="modal-body" id="modal-body"></div>
+  <div class="modal-footer" id="modal-footer"></div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
